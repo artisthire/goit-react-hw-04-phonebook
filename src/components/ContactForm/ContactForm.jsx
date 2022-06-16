@@ -1,31 +1,20 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Label, LabelName, Input, Button } from './ContactForm.styled';
 function ContactForm({ onContactAdd }) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [value, dispatch] = useReducer(reducer, {}, init);
 
   function handleChange({ target }) {
     const { name, value } = target;
 
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        throw new Error("Unknow input's name");
-    }
+    dispatch({ type: name, payload: value });
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    onContactAdd({ name, number });
-    setName('');
-    setNumber('');
+    onContactAdd({ name: value.name, number: value.number });
+    dispatch({ type: 'reset' });
   }
 
   return (
@@ -38,7 +27,7 @@ function ContactForm({ onContactAdd }) {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          value={name}
+          value={value.name}
           onChange={handleChange}
         />
       </Label>
@@ -50,7 +39,7 @@ function ContactForm({ onContactAdd }) {
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
+          value={value.number}
           onChange={handleChange}
         />
       </Label>
@@ -62,5 +51,17 @@ function ContactForm({ onContactAdd }) {
 ContactForm.propTypes = {
   onContactAdd: PropTypes.func.isRequired,
 };
+
+function init() {
+  return { name: '', number: '' };
+}
+
+function reducer(state, action) {
+  if (action.type === 'reset') {
+    return init();
+  }
+
+  return { ...state, [action.type]: action.payload };
+}
 
 export default ContactForm;

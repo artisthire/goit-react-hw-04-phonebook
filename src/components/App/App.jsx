@@ -27,14 +27,14 @@ function App() {
   function handleContactAdd({ name, number }) {
     const normalizeName = name.trim().toLocaleLowerCase();
 
-    const isNameInContact = contacts.find(
+    const isNameInContacts = contacts.some(
       contact => contact.name.toLocaleLowerCase() === normalizeName
     );
 
-    if (isNameInContact) {
+    if (isNameInContacts) {
       alert(`${name} is already in contacts`);
     } else {
-      setContacts([
+      setContacts(contacts => [
         ...contacts,
         { id: nanoid(6), name: name.trim(), number: number.trim() },
       ]);
