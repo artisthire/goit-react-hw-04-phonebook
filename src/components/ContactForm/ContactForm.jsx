@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Label, LabelName, Input, Button } from './ContactForm.styled';
 function ContactForm({ onContactAdd }) {
-  const [value, dispatch] = useReducer(reducer, {}, init);
+  const [state, dispatch] = useReducer(reducer, {}, init);
 
   function handleChange({ target }) {
     const { name, value } = target;
@@ -13,7 +13,7 @@ function ContactForm({ onContactAdd }) {
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    onContactAdd({ name: value.name, number: value.number });
+    onContactAdd({ name: state.name, number: state.number });
     dispatch({ type: 'reset' });
   }
 
@@ -27,7 +27,7 @@ function ContactForm({ onContactAdd }) {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          value={value.name}
+          value={state.name}
           onChange={handleChange}
         />
       </Label>
@@ -39,7 +39,7 @@ function ContactForm({ onContactAdd }) {
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={value.number}
+          value={state.number}
           onChange={handleChange}
         />
       </Label>
