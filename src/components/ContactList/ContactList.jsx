@@ -4,18 +4,16 @@ import ContactListItem from 'components/ContactList/ContactListItem';
 
 function ContactList({ contacts, onContactRemove }) {
   return (
-    contacts.length > 0 && (
-      <List>
-        {contacts.map(({ id, name, number }) => (
-          <ContactListItem
-            key={id}
-            name={name}
-            number={number}
-            onContactRemove={onContactRemove(id)}
-          />
-        ))}
-      </List>
-    )
+    <List>
+      {contacts.map(({ id, name, number }) => (
+        <ContactListItem
+          key={id}
+          name={name}
+          number={number}
+          onContactRemove={onContactRemove(id)}
+        />
+      ))}
+    </List>
   );
 }
 

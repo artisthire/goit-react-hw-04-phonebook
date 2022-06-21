@@ -1,13 +1,14 @@
 import { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Label, LabelName, Input, Button } from './ContactForm.styled';
+
 function ContactForm({ onContactAdd }) {
   const [state, dispatch] = useReducer(reducer, {}, init);
 
   function handleChange({ target }) {
-    const { name, value } = target;
+    const { name: type, value: payload } = target;
 
-    dispatch({ type: name, payload: value });
+    dispatch({ type, payload });
   }
 
   function handleSubmit(evt) {

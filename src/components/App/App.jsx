@@ -75,10 +75,12 @@ function App() {
 
         <h2>Contacts</h2>
         <Filter filterValue={filter} onFilterChange={handleFiterChange} />
-        <ContactList
-          contacts={visibleContacts}
-          onContactRemove={handleContactRemove}
-        />
+        {contacts.length > 0 && (
+          <ContactList
+            contacts={visibleContacts}
+            onContactRemove={handleContactRemove}
+          />
+        )}
       </Container>
     </Wrapper>
   );
